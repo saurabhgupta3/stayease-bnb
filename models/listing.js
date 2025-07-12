@@ -15,9 +15,8 @@ const listingSchema = new mongoose.Schema({
         },
         url: {
             type: String,
-            default: "C:/Users/saurabh/OneDrive/Pictures/Default.jpg",
-            set: (v) =>
-                v === "" ? "C:/Users/saurabh/OneDrive/Pictures/Default.jpg" : v,
+            default: "/images/default.jpg",
+            set: (v) => (!v || v.trim() === "" ? "/images/default.jpg" : v),
         },
     },
     location: {
