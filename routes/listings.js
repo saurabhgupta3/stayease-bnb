@@ -35,6 +35,10 @@ router.get(
         const { id } = req.params;
         const list = await Listing.findById(id).populate("reviews");
         // console.log(list);
+        if(!list) {
+            req.flash("error", "Sorry! that listing does not exists");
+            return res.redirect("/listings");
+        }
         res.render("listings/show", { list });
     })
 );
@@ -56,6 +60,7 @@ router.post(
             image,
         });
         await newListing.save();
+        req.flash("success", "new listing created");
         res.redirect("/listings");
     })
 );
@@ -67,6 +72,10 @@ router.get(
         const { id } = req.params;
         console.log(id);
         const list = await Listing.findById(id);
+        if(!list) {
+            req.flash("error", "Sorry! that listing does not exists");
+            return res.redirect("/listings");
+        }
         res.render("listings/edit", { list });
     })
 );
@@ -87,6 +96,7 @@ router.put(
             country,
             image,
         });
+        req.flash("success", "listing updated");
         res.redirect(`/listings/${id}`);
     })
 );
@@ -98,6 +108,7 @@ router.delete(
         const { id } = req.params;
         const deletedListing = await Listing.findByIdAndDelete(id);
         console.log(deletedListing);
+        req.flash("success", "listing deleted");
         res.redirect("/listings");
     })
 );
