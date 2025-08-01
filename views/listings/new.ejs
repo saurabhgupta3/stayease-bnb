@@ -1,81 +1,88 @@
 <% layout("layouts/boilerplate") %>
 <div class="row">
     <div class="col-8 offset-2 mt-3">
-        <body>
-            <h1>create new listing</h1>
-            <form action="/listings" method="post" novalidate class="needs-validation">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title : </label>
+        <h1>create new listing</h1>
+        <form
+            action="/listings"
+            method="post"
+            novalidate
+            class="needs-validation"
+            enctype="multipart/form-data"
+        >
+            <div class="mb-3">
+                <label for="title" class="form-label">Title : </label>
+                <input
+                    type="text"
+                    placeholder="enter title"
+                    name="title"
+                    class="form-control"
+                    required
+                />
+                <div class="valid-feedback">Title looks good!</div>
+                <div class="invalid-feedback">Title required</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label"
+                    >Description :
+                </label>
+                <textarea
+                    name="description"
+                    id=""
+                    placeholder="enter description"
+                    class="form-control"
+                    required
+                ></textarea>
+                <div class="invalid-feedback">
+                    Please enter valid description
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location : </label>
+                <input
+                    type="text"
+                    placeholder="enter location"
+                    name="location"
+                    class="form-control"
+                    required
+                />
+                <div class="invalid-feedback">Location should be valid</div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price : </label>
                     <input
-                        type="text"
-                        placeholder="enter title"
-                        name="title"
+                        type="number"
+                        placeholder="enter price"
+                        name="price"
                         class="form-control"
                         required
                     />
-                    <div class="valid-feedback">Title looks good!</div>
-                    <div class="invalid-feedback">Title required</div>
+                    <div class="invalid-feedback">Price should be valid</div>
                 </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label"
-                        >Description :
-                    </label>
-                    <textarea
-                        name="description"
-                        id=""
-                        placeholder="enter description"
-                        class="form-control"
-                        required
-                    ></textarea>
-                    <div class="invalid-feedback">Please enter valid description</div>
-                </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location : </label>
+                <div class="mb-3 col-md-8">
+                    <label for="country" class="form-label">country : </label>
                     <input
                         type="text"
-                        placeholder="enter location"
-                        name="location"
+                        placeholder="enter country"
+                        name="country"
                         class="form-control"
                         required
                     />
-                    <div class="invalid-feedback">Location should be valid</div>
+                    <div class="invalid-feedback">Country should be valid</div>
                 </div>
-                <div class="row">
-                    <div class="mb-3 col-md-4">
-                        <label for="price" class="form-label">Price : </label>
-                        <input
-                            placeholder="enter price"
-                            name="price"
-                            class="form-control"
-                            required
-                        />
-                        <div class="invalid-feedback">Price should be valid</div>
-                    </div>
-                    <div class="mb-3 col-md-8">
-                        <label for="country" class="form-label"
-                            >country :
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="enter country"
-                            name="country"
-                            class="form-control"
-                            required
-                        />
-                        <div class="invalid-feedback">Country should be valid</div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="image[url]" class="form-label">Image : </label>
-                    <input
-                        type="text"
-                        placeholder="enter image url/link"
-                        name="image[url]"
-                        class="form-control"
-                    />
-                </div>
-                <button class="btn btn-dark add-btn mt-3">submit</button>
-            </form>
-        </body>
+            </div>
+            <div class="mb-3">
+                <label for="image[url]" class="form-label"
+                    >Upload Listing Image :
+                </label>
+                <input
+                    type="file"
+                    name="image[url]"
+                    class="form-control"
+                    required
+                />
+            </div>
+            <button class="btn btn-dark add-btn mt-3">submit</button>
+        </form>
     </div>
 </div>

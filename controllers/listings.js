@@ -1,4 +1,5 @@
 const Listing = require("../models/listing.js");
+const getCoordinates = require("../utils/geoCode.js");
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -20,13 +21,14 @@ module.exports.showListing = async (req, res) => {
         req.flash("error", "Sorry! that listing does not exists");
         return res.redirect("/listings");
     }
-    console.log(list);
     res.render("listings/show", { list });
 };
 
 module.exports.createListing = async (req, res, next) => {
     const { title, description, location, price, country, image } = req.body;
-
+    const url = req.file.path;
+    const filename = req.file.filename;
+    const coords = await getCoordinates(location);
     const newListing = new Listing({
         title,
         description,
@@ -36,7 +38,17 @@ module.exports.createListing = async (req, res, next) => {
         image,
     });
     newListing.owner = req.user._id;
-    await newListing.save();
+    newListing.image = { url, filename };
+    if (!coords) {
+        req.flash("error", "Invalid location provided");
+        return res.redirect("/listings/new");
+    }
+    newListing.geometry = {
+        type: "Point",
+        coordinates: [coords.longitude, coords.latitude],
+    };
+    const savedListing = await newListing.save();
+    console.log(savedListing);
     req.flash("success", "new listing created");
     res.redirect("/listings");
 };
@@ -49,13 +61,15 @@ module.exports.renderEditForm = async (req, res) => {
         req.flash("error", "Sorry! that listing does not exists");
         return res.redirect("/listings");
     }
-    res.render("listings/edit", { list });
+    let originalImageUrl = list.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
+    res.render("listings/edit", { list, originalImageUrl });
 };
 
 module.exports.updateListing = async (req, res) => {
     const { id } = req.params;
     const { title, description, location, price, country, image } = req.body;
-    await Listing.findByIdAndUpdate(id, {
+    const updatedListing = await Listing.findByIdAndUpdate(id, {
         title,
         description,
         location,
@@ -63,6 +77,13 @@ module.exports.updateListing = async (req, res) => {
         country,
         image,
     });
+    if (req.file) {
+        const url = req.file.path;
+        const filename = req.file.filename;
+        updatedListing.image = { url, filename };
+        await updatedListing.save();
+    }
+
     req.flash("success", "listing updated");
     res.redirect(`/listings/${id}`);
 };

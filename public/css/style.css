@@ -106,3 +106,18 @@ body {
     padding-left: 0;
     padding-right: 0;
 }
+
+
+/* edit form page image display */
+
+.editImageDisplay{
+    max-height: 100px !important;
+    max-width: 250px;
+}
+
+/* map */
+
+#map {
+    height: 400px;
+    width: 80vh;
+}

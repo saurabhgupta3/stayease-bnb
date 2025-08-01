@@ -4,7 +4,13 @@
     <div class="col-8 offset-2 mt-3">
         <body>
             <h1>Edit your listing</h1>
-            <form action="/listings/<%=list._id%>?_method=put" method="post" novalidate class="needs-validation">
+            <form
+                action="/listings/<%=list._id%>?_method=put"
+                method="post"
+                novalidate
+                class="needs-validation"
+                enctype="multipart/form-data"
+            >
                 <div class="mb-3">
                     <label for="title" class="form-label">Title : </label>
                     <input
@@ -21,10 +27,17 @@
                     <label for="description" class="form-label"
                         >Description :
                     </label>
-                    <textarea name="description" id="" class="form-control" required>
+                    <textarea
+                        name="description"
+                        id=""
+                        class="form-control"
+                        required
+                    >
 <%=list.description%></textarea
                     >
-                    <div class="invalid-feedback">Please enter valid description</div>
+                    <div class="invalid-feedback">
+                        Please enter valid description
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="location" class="form-label">Location : </label>
@@ -47,7 +60,9 @@
                             class="form-control"
                             required
                         />
-                        <div class="invalid-feedback">Price should be valid</div>
+                        <div class="invalid-feedback">
+                            Price should be valid
+                        </div>
                     </div>
                     <div class="mb-3 col-md-8">
                         <label for="country" class="form-label"
@@ -60,19 +75,20 @@
                             class="form-control"
                             required
                         />
-                        <div class="invalid-feedback">Country should be valid</div>
+                        <div class="invalid-feedback">
+                            Country should be valid
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="image[url]" class="form-label">Image : </label>
-                    <input
-                        type="text"
-                        value="<%=list.image.url%>"
-                        name="image[url]"
-                        class="form-control"
-                        required
-                    />
-                    <div class="invalid-feedback">image link should be valid</div>
+                    Original Listing Image <br />
+                    <img class="editImageDisplay" src="<%= originalImageUrl %>" alt="" />
+                </div>
+                <div class="mb-3">
+                    <label for="image[url]" class="form-label"
+                        >Upload New Image :
+                    </label>
+                    <input type="file" name="image[url]" class="form-control" />
                 </div>
                 <button class="btn btn-dark edit-btn mt-3">edit</button>
             </form>
