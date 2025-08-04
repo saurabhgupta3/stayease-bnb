@@ -57,10 +57,10 @@ const sessionOptions = {
     },
 };
 
-//root route
-app.get("/", (req, res) => {
-    res.send("root is working");
-});
+// //root route
+// app.get("/", (req, res) => {
+//     res.send("root is working");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());
