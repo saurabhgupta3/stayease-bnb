@@ -1,3 +1,6 @@
+const coords = window.listingCoords;
+const title = window.listingTitle;
+
 let map = L.map("map").setView([coords[1], coords[0]], 13);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,

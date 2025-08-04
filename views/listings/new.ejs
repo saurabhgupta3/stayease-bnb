@@ -8,6 +8,7 @@
             novalidate
             class="needs-validation"
             enctype="multipart/form-data"
+            id="listingForm"
         >
             <div class="mb-3">
                 <label for="title" class="form-label">Title : </label>
@@ -44,9 +45,13 @@
                     name="location"
                     class="form-control"
                     required
+                    id="locationInput"
                 />
                 <div class="invalid-feedback">Location should be valid</div>
             </div>
+            <!-- latitude/longitude (hidden) -->
+            <input type="hidden" id="latitude" name="latitude" />
+            <input type="hidden" id="longitude" name="longitude" />
             <div class="row">
                 <div class="mb-3 col-md-4">
                     <label for="price" class="form-label">Price : </label>
@@ -86,3 +91,39 @@
         </form>
     </div>
 </div>
+
+<script>
+  async function getCoordinates(place) {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+    try {
+      const res = await fetch(url, {
+        headers: { "User-Agent": "StayEaseBNB/1.0 (noreply@stayeasebnb.com)" }
+      });
+      const data = await res.json();
+      if (data.length > 0) {
+        return {
+          latitude: parseFloat(data[0].lat),
+          longitude: parseFloat(data[0].lon)
+        };
+      } else {
+        alert("Place not found");
+        return null;
+      }
+    } catch (err) {
+      alert("Error fetching location");
+      console.error(err);
+      return null;
+    }
+  }
+
+  document.getElementById("listingForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const place = document.getElementById("locationInput").value;
+    const coords = await getCoordinates(place);
+    if (!coords) return;
+    document.getElementById("latitude").value = coords.latitude;
+    document.getElementById("longitude").value = coords.longitude;
+    console.log(`Coordinates for ${place}:`, coords);
+    this.submit();
+  });
+</script>

@@ -11,6 +11,8 @@ module.exports.listingSchema = Joi.object({
     location: Joi.string().required(),
     price: Joi.number().required(),
     country: Joi.string().required(),
+    latitude: Joi.number().optional(),
+    longitude: Joi.number().optional(),
 }).required();
 
 module.exports.reviewSchema = Joi.object({

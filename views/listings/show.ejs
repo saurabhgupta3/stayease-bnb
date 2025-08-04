@@ -1,7 +1,7 @@
 <% layout("layouts/boilerplate") %>
 <script>
-    const coords = <%= JSON.stringify(list.geometry.coordinates) %>;
-    const title = "<%= list.title %>";
+  window.listingCoords = [<%= list.geometry.coordinates[0] %>, <%= list.geometry.coordinates[1] %>];
+  window.listingTitle = "<%- list.title %>";
 </script>
 <div class="row mt-3">
     <div class="col-8 offset-3">
@@ -155,4 +155,6 @@
         <div id="map"></div>
     </div>
 </div>
+
+
 <script src="/js/map.js"></script>
