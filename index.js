@@ -71,11 +71,6 @@ const sessionOptions = {
     },
 };
 
-// //root route
-// app.get("/", (req, res) => {
-//     res.send("root is working");
-// });
-
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -101,6 +96,11 @@ app.use((req, res, next) => {
 //     let registeredUser = await User.register(fakeUser, "helloworld");
 //     res.send(registeredUser);
 // });
+
+//root route
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
