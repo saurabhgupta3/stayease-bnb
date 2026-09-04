@@ -1,0 +1,178 @@
+/* Ported from the EJS app's public/css/style.css, plus a few React-only bits. */
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    margin: 0;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-container {
+    flex: 1;
+}
+
+/* navbar */
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+.navbar .fa-compass {
+    color: #fe424d;
+    font-size: 2rem;
+}
+.nav-link {
+    color: #222222 !important;
+}
+.btn-search {
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+}
+.btn-search:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+.btn-search i {
+    display: inline;
+    margin-right: 0.5rem;
+}
+.search-inp {
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    width: 300px;
+    max-width: 100%;
+}
+
+/* footer */
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+.f-info-links,
+.f-info-socials,
+.f-info-brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-info-socials i {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+.f-info {
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    background-color: #ebebeb;
+    justify-content: center;
+    align-items: space-evenly;
+    flex-wrap: wrap;
+}
+
+/* filters */
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+}
+.filter:hover,
+.filter.active {
+    opacity: 1;
+    cursor: pointer;
+}
+.filter.active {
+    border-bottom: 2px solid #222222;
+}
+.filter p {
+    font-size: 0.8rem;
+    margin: 0;
+}
+.tax-toggle {
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.25rem;
+    padding: 1rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+/* cards */
+.listing-card {
+    border: none !important;
+    margin-bottom: 2rem;
+}
+.card-img-top {
+    border-radius: 1rem !important;
+    object-fit: cover !important;
+    width: 100% !important;
+}
+.listing-card .card-body {
+    padding: 0 !important;
+}
+.listing-link {
+    text-decoration: none;
+    color: inherit;
+}
+.card-img-overlay {
+    opacity: 0;
+    border-radius: 1rem;
+}
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* buttons */
+.add-btn,
+.edit-btn {
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+/* show page */
+.show-img {
+    height: 30vh;
+}
+.btns {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.show-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* edit form image preview */
+.editImageDisplay {
+    max-height: 100px !important;
+    max-width: 250px;
+}
+
+/* map */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 0.5rem;
+}

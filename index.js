@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
+const fs = require("fs");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
@@ -15,9 +16,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
-const listingRouter = require("./routes/listings.js");
-const reviewRouter = require("./routes/review.js");
-const userRouter = require("./routes/user.js");
+const apiRouter = require("./routes/api.js");
 
 //logging middleware
 
@@ -31,9 +30,21 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "/public")));
 
 app.engine("ejs", ejsMate);
+
+//The React build in ./frontend/dist is the frontend. /public stays mounted so
+//image paths saved on older listings (e.g. /images/default.jpg) keep resolving.
+const clientDist = path.join(__dirname, "frontend", "dist");
+
+app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(clientDist));
+
+if (!fs.existsSync(path.join(clientDist, "index.html"))) {
+    console.log(
+        "frontend/dist not found - run `npm run build` so the React app can be served"
+    );
+}
 
 main()
     .then(() => {
@@ -97,26 +108,33 @@ app.use((req, res, next) => {
 //     res.send(registeredUser);
 // });
 
-//root route
-app.get("/", (req, res) => {
-    res.redirect("/listings");
-});
+//JSON API consumed by the React frontend
+app.use("/api", apiRouter);
 
-app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter);
-
+//Every other GET hands the page to React, which does its own routing.
+//Unmatched /api paths are answered by the API router's own 404.
 app.use((req, res, next) => {
-    next(new ExpressError(404, "Page not found"));
+    if (req.method !== "GET" || req.path.startsWith("/api")) {
+        return next(new ExpressError(404, "Not found"));
+    }
+    res.sendFile(path.join(clientDist, "index.html"), (err) => {
+        if (err) {
+            next(
+                new ExpressError(
+                    500,
+                    "React build not found - run `npm run build` first"
+                )
+            );
+        }
+    });
 });
 
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "some error occured" } = err;
-    res.status(statusCode).render("error", { message });
-    // res.status(statusCode).send(message);
+    res.status(statusCode).json({ error: message });
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });

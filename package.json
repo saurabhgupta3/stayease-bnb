@@ -8,6 +8,8 @@
     },
   "scripts": {
     "start": "node index.js",
+    "build": "cd frontend && npm install --include=dev && npm run build",
+    "dev:client": "cd frontend && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
